@@ -24,7 +24,7 @@ export async function POST(req: Request) {
 
     const result = await generateObject({
       model: openai('gpt-4o'),
-      system: `You generate concise cloze flashcards based on the conversation and existing flashcards to ensure coverage of new topics and insights without duplication. Each flashcard should hide exactly one important term or short phrase using {{c1::...}}. Focus specifically on unique, relevant points from the current conversation that have not already been addressed, avoiding trivial words (e.g., "the," "and") or single letters. The goal is to produce clear, focused flashcards that each test understanding of a distinct fact or concept.`,
+      system: `Analyze the provided conversation and return a new title description of the conversation in less than 10 words. Make each one viral worthy. Don't be corny though.`,
       prompt: prompt,
       schema: z.object({
         flashcards: z.array(

@@ -10,6 +10,7 @@ import { FlashcardPanel } from "@/components/flashcard-panel";
 import { StreamData, streamReader } from "@/lib/utils";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation";
 
 import { useChat } from '@ai-sdk/react';
 import { saveConversation, storeMessages } from "@/app/actions/database";
@@ -42,6 +43,7 @@ interface DatabaseMessage {
 
 // ChatInterface component to render chat interface + functionality
 export function ChatInterface() {
+  const router = useRouter();
   // const [conversationCount, setConversationCount] = useState<number | null>(null);
   // const [cardsCount, setCardsCount] = useState<number | null>(null);
   // const [hasIncrementedCount, setHasIncrementedCount] = useState(false);
@@ -54,7 +56,7 @@ export function ChatInterface() {
   // useRef is a hook to store mutable values that persist across renders
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { messages, input, handleInputChange, handleSubmit: originalHandleSubmit } = useChat();
-
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -72,6 +74,16 @@ export function ChatInterface() {
   };
 
   const handlePostToPublic = async () => {
+    if (!messages || messages.length === 0) {
+      alert('Cannot post an empty conversation!');
+      return;
+    }
+
+    if (!title.trim()) {
+      alert('Please enter a title for your conversation!');
+      return;
+    }
+
     const baseTimestamp = new Date();
     
     // Convert ChatMessage to DatabaseMessage with precise ordering
@@ -90,11 +102,14 @@ export function ChatInterface() {
   
     try {
       const conversationId = generateUniqueId();
-      await saveConversation(conversationId, 'Public Conversation');
+      await saveConversation(conversationId, title.trim());
       await storeMessages(conversationId, formattedMessages);
-      console.log('Conversation stored successfully');
+      alert('Conversation posted successfully!');
+      // Reset the chat - this depends on your useChat implementation
+      window.location.reload(); // Simple reset solution
     } catch (error) {
       console.error('Failed to store conversation:', error);
+      alert('Failed to post conversation');
     }
   };
 
@@ -107,13 +122,34 @@ export function ChatInterface() {
 
   return (
     <div className="space-y-4 w-full px-4">
-      <div>
-        <h1 className="text-2xl font-bold mb-2">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">
           Echo: Share your conversations publicly
         </h1>
+        <div className="flex gap-2 items-center">
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Enter conversation title..."
+            className="px-3 py-1 rounded border border-gray-300 focus:outline-none focus:ring-1 focus:ring-primary"
+          />
+          <Button 
+            onClick={() => window.location.href = '/'}
+            className="bg-secondary text-secondary-foreground"
+          >
+            Home
+          </Button>
+          <Button 
+            onClick={handlePostToPublic}
+            className="bg-primary text-primary-foreground"
+          >
+            Post to Public
+          </Button>
+        </div>
       </div>
 
-      <div className="grid w-full gap-2 lg:grid-cols-[2.8fr,1fr]">
+      <div className="grid w-full gap-2">
         <div className="bg-card text-card-foreground shadow-sm flex h-[calc(100vh-13rem)] flex-col p-3">
           <ScrollArea className="flex-1 pr-3" ref={scrollAreaRef}>
             <div className="flex flex-col gap-4">
@@ -162,14 +198,7 @@ export function ChatInterface() {
             </Button>
           </form>
         </div>
-          <Button 
-            onClick={handlePostToPublic}
-            className="bg-primary text-primary-foreground px-3 py-1 rounded shadow-lg cursor-pointer"
-          >
-            Post to Public
-          </Button>
       </div>
-
     </div>
   );
 }

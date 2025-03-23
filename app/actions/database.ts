@@ -57,7 +57,7 @@ export async function getConversationIds() {
       FROM conversations
       ORDER BY conversationId DESC
     `;
-    return conversations[0];
+    return conversations;
   } catch (error) {
     console.error('Database error:', error);
     return [];
