@@ -4,12 +4,10 @@ interface PageProps {
     params: {
         id: string;
     };
-    searchParams?: { [key: string]: string | string[] | undefined };
 }
 
 export default async function Page({ 
-    params,
-    searchParams 
+    params
 }: PageProps) {
     return (
         <div className="container mx-auto p-4">
