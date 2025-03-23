@@ -1,13 +1,13 @@
 import { ReadConversation } from "@/components/read-conversation";
 
-type PageProps = {
+interface PageProps {
     params: {
         id: string;
     };
-    searchParams: { [key: string]: string | string[] | undefined };
-};
+    searchParams?: { [key: string]: string | string[] | undefined };
+}
 
-export default async function ConversationPage({ 
+export default function Page({ 
     params,
     searchParams 
 }: PageProps) {
