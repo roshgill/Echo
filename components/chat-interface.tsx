@@ -124,7 +124,7 @@ export function ChatInterface() {
     <div className="space-y-4 w-full px-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">
-          Echo: Share your conversations publicly
+          Echo: Powered by GPT-4o
         </h1>
         <div className="flex gap-2 items-center">
           <input
@@ -150,7 +150,7 @@ export function ChatInterface() {
       </div>
 
       <div className="grid w-full gap-2">
-        <div className="bg-card text-card-foreground shadow-sm flex h-[calc(100vh-13rem)] flex-col p-3">
+        <div className="bg-card text-card-foreground shadow-sm flex h-[calc(100vh-6rem)] flex-col p-3">
           <ScrollArea className="flex-1 pr-3" ref={scrollAreaRef}>
             <div className="flex flex-col gap-4">
               {messages.map((message) => (

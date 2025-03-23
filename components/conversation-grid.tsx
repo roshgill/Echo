@@ -24,7 +24,7 @@ export function ConversationGrid({ conversations }: { conversations: Conversatio
                         className="p-6 bg-white/10 rounded-lg cursor-pointer hover:bg-white/20 transition-all"
                         onClick={() => handleConversationClick(conv.conversationId)}
                     >
-                        <h3 className="text-white text-lg font-semibold text-center">
+                        <h3 className="text-black text-lg font-semibold text-center">
                             {conv.conversationName}
                         </h3>
                     </div>

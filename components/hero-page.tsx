@@ -46,11 +46,11 @@ export function HeroPage() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gray-900">
+        <div className="min-h-screen">
             <div className="text-center py-12">
                 <div className="flex justify-between items-center max-w-7xl mx-auto px-4">
                     <div className="flex-1">
-                        <h1 className="text-4xl font-bold text-white">
+                        <h1 className="text-4xl font-bold text-black">
                             ECHO
                         </h1>
                         <p className="mt-2 text-gray-400">
@@ -59,7 +59,7 @@ export function HeroPage() {
                     </div>
                     <Button 
                         onClick={() => router.push('/chat-interface')}
-                        className="bg-primary text-white"
+                        className="bg-primary text-black"
                     >
                         New Chat
                     </Button>
