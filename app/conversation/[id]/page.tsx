@@ -7,7 +7,7 @@ interface PageProps {
     searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-export default function Page({ 
+export default async function Page({ 
     params,
     searchParams 
 }: PageProps) {
